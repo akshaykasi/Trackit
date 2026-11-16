@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Trackit design tokens (Tailwind v4 theme)
+   Cream #F6F1E7 · ink #1B2A1F · moss #2F6B4F · sage #CFE3D2 · coral #F2765A
+   sun #F6D58A · muted #3C4A40 · panel #243A2B · divider #EDE7DA
+--------------------------------------------------------------------------- */
+@theme {
+  --color-cream: #f6f1e7;
+  --color-ink: #1b2a1f;
+  --color-panel: #243a2b;
+  --color-moss: #2f6b4f;
+  --color-moss-deep: #285c43;
+  --color-sage: #cfe3d2;
+  --color-sage-deep: #bfd9c5;
+  --color-coral: #f2765a;
+  --color-coral-deep: #e9633f;
+  --color-sun: #f6d58a;
+  --color-muted: #3c4a40;
+  --color-divider: #ede7da;
+
+  --font-sans: "Figtree", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f6f1e7;
+  color: #1b2a1f;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 2px solid #2f6b4f;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------------------
+   3D dashboard preview (landing page)
+   Tilted dark panel that flattens on hover, with floating cards that bob.
+   Floating cards + tilt are hidden below 760px; animation is disabled for
+   users who prefer reduced motion.
+--------------------------------------------------------------------------- */
+.scene {
+  perspective: 1400px;
+}
+
+.tilt {
+  transform: rotateX(14deg) rotateZ(-2deg);
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.fl {
+  position: absolute;
+  animation: fl-bob 5s ease-in-out infinite;
+}
+
+@keyframes fl-bob {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 90px) rotateX(0deg) rotateY(-10deg);
+  }
+  50% {
+    transform: translate3d(0, -16px, 90px) rotateX(5deg) rotateY(10deg);
+  }
+}
+
+@media (min-width: 761px) {
+  .scene:hover .tilt {
+    transform: rotateX(0deg) rotateZ(0deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .fl {
+    display: none;
+  }
+  .tilt {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .fl {
+    animation: none;
+    transform: translateZ(60px);
+  }
+  .tilt {
+    transition: none;
+  }
+}
